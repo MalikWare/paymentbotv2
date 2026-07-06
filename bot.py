@@ -33,38 +33,99 @@ def staff_only():
 async def on_ready():
     print(f"Logged in as {bot.user}")
 
+# ---- EMBED FUNCTION ----
+def create_payment_embed(title, value, icon="💳"):
+    embed = discord.Embed(
+        title=f"{icon} {title}",
+        description=value,
+        color=discord.Color.blue()
+    )
+
+    embed.set_footer(
+        text="Payment Information",
+        icon_url=bot.user.display_avatar.url if bot.user else None
+    )
+
+    return embed
+
 # ---- COMMANDS ----
 
 @bot.command()
 @staff_only()
 async def cash(ctx):
-    await ctx.send("💵 Cash App: urtag")
+    embed = create_payment_embed(
+        "Cash App",
+        "```URTAG```",
+        "💵"
+    )
+    await ctx.send(embed=embed)
 
 @bot.command()
 @staff_only()
 async def paypal(ctx):
-    await ctx.send("💳 PayPal: urtag")
+    embed = create_payment_embed(
+        "PayPal",
+        "```URTAG```",
+        "💰"
+    )
+    await ctx.send(embed=embed)
 
 @bot.command()
 @staff_only()
 async def venmo(ctx):
-    await ctx.send("📱 Venmo: urtag")
+    embed = create_payment_embed(
+        "Venmo",
+        "```URTAG ```",
+        "🏦"
+    )
+    await ctx.send(embed=embed)
 
 @bot.command()
 @staff_only()
 async def methods(ctx):
-    await ctx.send(
-        "💰 Payment Methods\n"
-        "💵 Cash App: urtag\n"
-        "💳 PayPal: urtag\n"
-        "📱 Venmo: urtag"
+    embed = discord.Embed(
+        title="💳 Payment Methods",
+        description="Available payment options",
+        color=discord.Color.green()
     )
 
-# ---- ERROR HANDLER (optional but helpful) ----
+    embed.add_field(
+        name="💵 Cash App",
+        value="```URTAG```",
+        inline=False
+    )
+
+    embed.add_field(
+        name="💰 PayPal",
+        value="```URTAG```",
+        inline=False
+    )
+
+    embed.add_field(
+        name="🏦 Venmo",
+        value="```URTAG ```",
+        inline=False
+    )
+
+    embed.set_thumbnail(url=ctx.guild.icon.url if ctx.guild.icon else discord.Embed.Empty)
+
+    embed.set_footer(
+        text=f"Requested by {ctx.author}",
+        icon_url=ctx.author.display_avatar.url
+    )
+
+    await ctx.send(embed=embed)
+
+# ---- ERROR HANDLER ----
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CheckFailure):
-        await ctx.send("❌ You don’t have permission to use this command.")
+        embed = discord.Embed(
+            title="❌ Access Denied",
+            description="You do not have permission to use this command.",
+            color=discord.Color.red()
+        )
+        await ctx.send(embed=embed)
 
 # ---- RUN BOT ----
 bot.run(TOKEN)
