@@ -10,7 +10,8 @@ A simple Discord bot that allows you to quickly share your payment information u
 * `$methods` command to display all available payment methods
 * Clean and customizable embeds
 * Lightweight and easy to configure
-
+* Staff only commands
+  
 ## Commands
 
 | Command    | Description                                               |
@@ -28,7 +29,7 @@ A simple Discord bot that allows you to quickly share your payment information u
    ```bash
    pip install -r requirements.txt
    ```
-3. Open `main.py` and replace the placeholder values with:
+3. Open `bot.py` and replace the placeholder values with:
 
    * Your Discord bot token
    * Your Venmo information
@@ -37,7 +38,7 @@ A simple Discord bot that allows you to quickly share your payment information u
 4. Start the bot:
 
    ```bash
-   python main.py
+   python bot.py
    ```
 
 ## Requirements
